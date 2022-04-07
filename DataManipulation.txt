@@ -1,0 +1,63 @@
+/* let's check out a book rentalparameters: Rental_ID, Book_ID, Student_ID, status, return date*/
+insert into RENTAL
+values(8,2,6,'Rented','5/1/2022');
+
+update STOCK
+set Quanity = Quanity - 1
+where Book_ID = 2;
+
+/*let's see if it worked Quanity should decrease by one*/
+
+select Book_ID, Book_Name, Quanity
+from Stock
+order by Book_ID;
+
+/* let's return a book*/
+update Rental
+set Book_Status = 'Returned'
+where rental_ID = 1;
+
+update Stock
+set Quanity = Quanity +1
+where book_ID = 1
+
+/*we should look at rental when looking at the above*/
+select *
+from Rental
+order by Rental_ID;
+
+/*Let's see who's renting what and that title. (joining on 3 tables)*/
+select Rental_ID,rental.STUDENT_ID,S_FName,S_LName,Book_Name
+from rental join stock on Stock.BOOK_ID=Rental.BOOK_ID
+join Student on rental.STUDENT_ID = Student.STUDENT_ID;
+
+/* let's add some books to the collection and check it out*/
+insert into stock
+values(8,2,'A Tale of Two Cities',3,'N');
+
+
+insert into RENTAL
+values(9,8,3,'Rented','5/10/2022');
+
+update STOCK
+set Quanity = Quanity - 1
+where Book_ID = 8;
+
+/*Lets see which librarian stocked the book*/
+select Book_ID, Librarian.LIBRARIAN_ID, L_FName, L_LName
+from LIBRARIAN join STOCK on LIBRARIAN.LIBRARIAN_ID=STOCK.LIBRARIAN_ID;
+
+/*let's see what book a student needs for a class*/
+select Student_ID, Teacher.TEACHER_ID, Book_ID
+from Student join teacher on STUDENT.TEACHER_ID = TEACHER.TEACHER_ID
+order by STUDENT_ID;
+
+/*We see that student 5 needs to rent out book_ID 2, let's rent that out*/
+
+insert into RENTAL
+values(10,2,5,'Rented','5/16/2022');
+
+update STOCK
+set Quanity = 0
+where Book_ID = 2;
+
