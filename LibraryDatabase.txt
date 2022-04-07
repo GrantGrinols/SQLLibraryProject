@@ -1,0 +1,145 @@
+Create Table BUILDING(
+BUILDING_ID INTEGER NOT NULL UNIQUE,
+BUILDING_ADDRESS VARCHAR(45) NOT NULL,
+BUILDING_NAME VARCHAR(45) NOT NULL,
+PRIMARY KEY(BUILDING_ID));
+
+CREATE TABLE LIBRARIAN(
+LIBRARIAN_ID INTEGER NOT NULL UNIQUE,
+BUILDING_ID INTEGER,
+L_FNAME VARCHAR(25),
+L_LNAME VARCHAR(25),
+L_SHIFT VARCHAR(15),
+PRIMARY KEY(LIBRARIAN_ID),
+FOREIGN KEY(BUILDING_ID) REFERENCES BUILDING ON UPDATE CASCADE);
+
+CREATE TABLE STOCK(
+BOOK_ID INTEGER NOT NULL,
+LIBRARIAN_ID INTEGER,
+BOOK_NAME VARCHAR(50),
+QUANITY INTEGER,
+IS_ONLINE CHAR(1),
+PRIMARY KEY(BOOK_ID),
+FOREIGN KEY(LIBRARIAN_ID) REFERENCES LIBRARIAN ON UPDATE CASCADE);
+
+
+
+CREATE TABLE TEACHER(
+TEACHER_ID INTEGER NOT NULL,
+T_FNAME VARCHAR(30),
+T_LNAME VARCHAR(30),
+DEPARTMENT VARCHAR(20),
+BOOK_ID INTEGER,
+PRIMARY KEY(TEACHER_ID),
+FOREIGN KEY(BOOK_ID) REFERENCES STOCK ON UPDATE CASCADE);
+
+CREATE TABLE STUDENT(
+STUDENT_ID INTEGER NOT NULL,
+TEACHER_ID INTEGER,
+S_FNAME VARCHAR(30),
+S_LNAME VARCHAR(30),
+PRIMARY KEY(STUDENT_ID),
+FOREIGN KEY(TEACHER_ID) REFERENCES TEACHER ON UPDATE CASCADE);
+
+CREATE TABLE FEES(
+STUDENT_ID INTEGER NOT NULL,
+COST NUMERIC(5,2),
+PRIMARY KEY(STUDENT_ID),
+FOREIGN KEY(STUDENT_ID) REFERENCES STUDENT ON UPDATE CASCADE);
+
+CREATE TABLE RENTAL(
+RENTAL_ID INTEGER NOT NULL,
+BOOK_ID INTEGER NOT NULL,
+STUDENT_ID INTEGER NOT NULL,
+BOOK_STATUS VARCHAR(20),
+DUEDATE DATE,
+PRIMARY KEY(RENTAL_ID),
+FOREIGN KEY(BOOK_ID) REFERENCES STOCK,
+FOREIGN KEY(STUDENT_ID) REFERENCES STUDENT ON UPDATE CASCADE);
+
+insert into BUILDING
+VALUES(1,'100 Library Drive, Rochester, Michigan','Oakland University Library');
+insert into BUILDING
+VALUES(2,'5201 Woodward Ave, Detroit, MI 48202','Detroit Public Library');
+
+insert into LIBRARIAN
+VALUES(1,1,'James','Liggy','Day');
+insert into LIBRARIAN
+VALUES(2,1,'Mellish','Dewey','Day');
+insert into LIBRARIAN
+VALUES(3,1,'Sarah','Botch','Night');
+insert into LIBRARIAN
+VALUES(4,2,'Kayla','Star','Day');
+insert into LIBRARIAN
+VALUES(5,2,'James','Liggy','Night');
+
+insert into STOCK
+Values(1,1,'Green Eggs and Ham',3,'N');
+insert into STOCK
+Values(2,3,'Percy Jackson: The Lightning Thief',2,'N');
+insert into STOCK
+Values(3,2,'To Kill A Mockingbird',5,'N');
+insert into STOCK
+Values(4,4,'Lord of the Flies',7,'N');
+insert into STOCK
+Values(5,5,'Garfield',0,'N');
+insert into STOCK
+Values(6,null,'Database Design',null,'Y');
+insert into STOCK
+Values(7,4,'It',2,'N');
+
+insert into TEACHER
+Values(1,'Matt','Biggs','English',1);
+insert into TEACHER
+Values(2,'Henry','Snackgrass','English',2);
+insert into TEACHER
+Values(3,'Rachel','Monta','English',2);
+insert into TEACHER
+Values(4,'Zoe','Entwig','Math',null);
+insert into TEACHER
+Values(5,'Michael','Goode','Philosophy',5);
+
+
+
+
+insert into STUDENT
+Values(1,2,'Sally','Mae');
+insert into STUDENT
+Values(2,2,'Jessica','Lavor');
+insert into STUDENT
+Values(3,1,'Moe','Reed');
+insert into STUDENT
+Values(4,null,'Zoey','Wright');
+insert into STUDENT
+Values(5,3,'Tris','Alex');
+insert into STUDENT
+Values(6,3,'Mary','Jane');
+insert into STUDENT
+Values(7,4,'Jacob','Marshall');
+insert into STUDENT
+Values(8,2,'Banner','Egg');
+
+insert into rental
+values(1,1,1,'Rented','4/30/2022');
+insert into rental
+values(2,2,5,'Returned','4/6/2022');
+insert into rental
+values(3,3,2,'Returned','3/26/2022');
+insert into rental
+values(4,5,1,'Rented','4/12/2022');
+insert into rental
+values(5,1,6,'Returned','3/24/2022');
+insert into rental
+values(6,7,8,'Rented','4/23/2022');
+insert into rental
+values(7,4,2,'Rented','5/30/2022');
+
+
+Insert into fees
+values(1,10.00);
+Insert into fees
+values(3,20.00);
+Insert into fees
+values(5,10.00);
+
+
